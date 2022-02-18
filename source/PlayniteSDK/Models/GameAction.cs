@@ -246,13 +246,41 @@ namespace Playnite.SDK.Models
             }
         }
 
+        private string username;
+        /// <summary>
+        /// Gets or sets the name of the user to launch the action as.
+        /// </summary>
+        public string Username
+        {
+            get => username;
+            set
+            {
+                username = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string password;
+        /// <summary>
+        /// Gets or sets the password of the user that the action should be launched as.
+        /// </summary>
+        public string Password
+        {
+            get => password;
+            set
+            {
+                password = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <inheritdoc/>
         public override string ToString()
         {
             switch (Type)
             {
                 case GameActionType.File:
-                    return $"File: {Path}, {Arguments}, {WorkingDir}";
+                    return $"File: {Path}, {Arguments}, {WorkingDir}, {Username}";
                 case GameActionType.URL:
                     return $"Url: {Path}";
                 case GameActionType.Emulator:
@@ -314,6 +342,11 @@ namespace Playnite.SDK.Models
             }
 
             if (!string.Equals(Name, other.Name, StringComparison.Ordinal))
+            {
+                return false;
+            }
+
+            if (!string.Equals(Username, other.Username, StringComparison.Ordinal))
             {
                 return false;
             }

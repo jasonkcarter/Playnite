@@ -79,6 +79,32 @@ namespace Playnite.DesktopApp.Controls
             }
         }
 
+        public bool ShowUsernameRow
+        {
+            get
+            {
+                if (GameTask == null)
+                {
+                    return false;
+                }
+
+                return GameTask.Type == GameActionType.File;
+            }
+        }
+
+        public bool ShowPasswordRow
+        {
+            get
+            {
+                if (GameTask == null)
+                {
+                    return false;
+                }
+
+                return GameTask.Type == GameActionType.File;
+            }
+        }
+
         public bool ShowAdditionalArgumentsRow
         {
             get

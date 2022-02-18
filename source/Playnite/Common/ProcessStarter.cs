@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Playnite.Common
 {
@@ -82,17 +83,17 @@ namespace Playnite.Common
             }
         }
 
-        public static Process StartProcess(string path, bool asAdmin = false)
+        public static Process StartProcess(string path, bool asAdmin = false, string username = null, string password = null)
         {
-            return StartProcess(path, string.Empty, string.Empty, asAdmin);
+            return StartProcess(path, string.Empty, string.Empty, asAdmin, username, password);
         }
 
-        public static Process StartProcess(string path, string arguments, bool asAdmin = false)
+        public static Process StartProcess(string path, string arguments, bool asAdmin = false, string username = null, string password = null)
         {
-            return StartProcess(path, arguments, string.Empty, asAdmin);
+            return StartProcess(path, arguments, string.Empty, asAdmin, username, password);
         }
 
-        public static Process StartProcess(string path, string arguments, string workDir, bool asAdmin = false)
+        public static Process StartProcess(string path, string arguments, string workDir, bool asAdmin = false, string username = null, string password = null)
         {
             logger.Debug($"Starting process: {path}, {arguments}, {workDir}, {asAdmin}");
             var startupPath = path;
@@ -106,6 +107,13 @@ namespace Playnite.Common
                 Arguments = arguments,
                 WorkingDirectory = string.IsNullOrEmpty(workDir) ? (new FileInfo(startupPath)).Directory.FullName : workDir
             };
+            if(username != null && password != null)
+            {
+                info.UserName = username;
+                info.PasswordInClearText = password;
+                info.UseShellExecute = false;
+                info.LoadUserProfile = true;
+            }
 
             if (asAdmin)
             {

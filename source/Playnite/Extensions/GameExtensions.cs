@@ -39,6 +39,8 @@ namespace Playnite
             expaded.Arguments = game.ExpandVariables(expaded.Arguments);
             expaded.WorkingDir = game.ExpandVariables(expaded.WorkingDir, true);
             expaded.TrackingPath = game.ExpandVariables(expaded.TrackingPath, true);
+            expaded.Username = game.ExpandVariables(expaded.Username, true);
+            expaded.Password = game.ExpandVariables(expaded.Password, true);
             if (expaded.Type != GameActionType.URL)
             {
                 expaded.Path = game.ExpandVariables(expaded.Path, true);
