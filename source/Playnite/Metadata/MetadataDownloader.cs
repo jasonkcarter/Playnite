@@ -187,19 +187,19 @@ namespace Playnite.Metadata
                                 metadata.Name = provider.GetName(getFieldArgs);
                                 break;
                             case MetadataField.Genres:
-                                metadata.Genres = provider.GetGenres(getFieldArgs)?.Where(a => a != null).ToHashSet();
+                                metadata.Genres = ListExtensions.ToHashSet(provider.GetGenres(getFieldArgs)?.Where(a => a != null));
                                 break;
                             case MetadataField.ReleaseDate:
                                 metadata.ReleaseDate = provider.GetReleaseDate(getFieldArgs);
                                 break;
                             case MetadataField.Developers:
-                                metadata.Developers = provider.GetDevelopers(getFieldArgs)?.Where(a => a != null).ToHashSet();
+                                metadata.Developers = ListExtensions.ToHashSet(provider.GetDevelopers(getFieldArgs)?.Where(a => a != null));
                                 break;
                             case MetadataField.Publishers:
-                                metadata.Publishers = provider.GetPublishers(getFieldArgs)?.Where(a => a != null).ToHashSet();
+                                metadata.Publishers = ListExtensions.ToHashSet(provider.GetPublishers(getFieldArgs)?.Where(a => a != null));
                                 break;
                             case MetadataField.Tags:
-                                metadata.Tags = provider.GetTags(getFieldArgs)?.Where(a => a != null).ToHashSet();
+                                metadata.Tags = ListExtensions.ToHashSet(provider.GetTags(getFieldArgs)?.Where(a => a != null));
                                 break;
                             case MetadataField.Description:
                                 metadata.Description = provider.GetDescription(getFieldArgs);
@@ -223,19 +223,19 @@ namespace Playnite.Metadata
                                 metadata.BackgroundImage = provider.GetBackgroundImage(getFieldArgs);
                                 break;
                             case MetadataField.Features:
-                                metadata.Features = provider.GetFeatures(getFieldArgs)?.Where(a => a != null).ToHashSet();
+                                metadata.Features = ListExtensions.ToHashSet(provider.GetFeatures(getFieldArgs)?.Where(a => a != null));
                                 break;
                             case MetadataField.AgeRating:
-                                metadata.AgeRatings = provider.GetAgeRatings(getFieldArgs)?.Where(a => a != null).ToHashSet();
+                                metadata.AgeRatings = ListExtensions.ToHashSet(provider.GetAgeRatings(getFieldArgs)?.Where(a => a != null));
                                 break;
                             case MetadataField.Region:
-                                metadata.Regions = provider.GetRegions(getFieldArgs)?.Where(a => a != null).ToHashSet();
+                                metadata.Regions = ListExtensions.ToHashSet(provider.GetRegions(getFieldArgs)?.Where(a => a != null));
                                 break;
                             case MetadataField.Series:
-                                metadata.Series = provider.GetSeries(getFieldArgs)?.Where(a => a != null).ToHashSet();
+                                metadata.Series = ListExtensions.ToHashSet(provider.GetSeries(getFieldArgs)?.Where(a => a != null));
                                 break;
                             case MetadataField.Platform:
-                                metadata.Platforms = provider.GetPlatforms(getFieldArgs)?.Where(a => a != null).ToHashSet();
+                                metadata.Platforms = ListExtensions.ToHashSet(provider.GetPlatforms(getFieldArgs)?.Where(a => a != null));
                                 break;
                             default:
                                 throw new NotImplementedException();
