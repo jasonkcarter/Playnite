@@ -8,7 +8,7 @@
              xmlns:mods="clr-namespace:Playnite.SDK.Models;assembly=Playnite.SDK"
              xmlns:pctrls="clr-namespace:Playnite.DesktopApp.Controls"
              mc:Ignorable="d" 
-             d:DesignWidth="600">
+             d:DesignWidth="600" DataContextChanged="UserControl_DataContextChanged">
     <UserControl.Resources>
         <pcon:BidirectionalEnumAndNumberConverter x:Key="BidirectionalEnumAndNumberConverter" />
         <pcon:BoolToAutoWidthConverter x:Key="BoolToAutoWidthConverter" />       
@@ -93,7 +93,8 @@
                 <RowDefinition Name="RowDefaultArguments" Height="{Binding ShowDefaultArgumentsRow, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay, Converter={StaticResource BoolToAutoWidthConverter}}"/>
                 <RowDefinition Name="RowAdditionalArgs" Height="{Binding ShowAdditionalArgumentsRow, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay, Converter={StaticResource BoolToAutoWidthConverter}}"/>
                 <RowDefinition Name="RowCustomEmulatorArgs" Height="{Binding ShowCustomEmulatorArgsRow, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay, Converter={StaticResource BoolToAutoWidthConverter}}"/>
-                <RowDefinition Name="RowTrackingPath" Height="{Binding ShowTrackingPathRow, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay, Converter={StaticResource BoolToAutoWidthConverter}}"/>                
+                <RowDefinition Name="RowTrackingPath" Height="{Binding ShowTrackingPathRow, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay, Converter={StaticResource BoolToAutoWidthConverter}}"/>
+                <RowDefinition Name="RowProcessorAffinity" Height="{Binding ShowArgumentsRow, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay, Converter={StaticResource BoolToAutoWidthConverter}}"/>
             </Grid.RowDefinitions>
 
             <TextBlock Text="{DynamicResource LOCPathLabel}" Grid.Column="0" Grid.Row="0" />            
@@ -155,6 +156,11 @@
             <TextBlock Text="Tracking path" Grid.Column="0" Grid.Row="10" />
             <pctrls:PathSelectionBox Grid.Column="1" Grid.Row="10" ShowDirectorySelector="True"
                                      Text="{Binding TrackingPath}"/>
+
+            <TextBlock Text="{DynamicResource LOCActionAffinity}" Grid.Column="0" Grid.Row="11" />
+            <Expander Name="ExpanderAffinity" Grid.Column="1" Grid.Row="11" VerticalContentAlignment="Top">
+                <ListBox Name="ListBoxAffinity" SelectionMode="Multiple" PreviewMouseWheel="ListBoxAffinity_PreviewMouseWheel" />
+            </Expander>
         </Grid>
     </Grid>
 </UserControl>

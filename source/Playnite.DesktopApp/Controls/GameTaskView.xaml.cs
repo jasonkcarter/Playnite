@@ -349,6 +349,8 @@ namespace Playnite.DesktopApp.Controls
         private void NotifyRowChange()
         {
             OnPropertyChanged(nameof(ShowArgumentsRow));
+            OnPropertyChanged(nameof(ShowUsernameRow));
+            OnPropertyChanged(nameof(ShowPasswordRow));
             OnPropertyChanged(nameof(ShowAdditionalArgumentsRow));
             OnPropertyChanged(nameof(ShowDefaultArgumentsRow));
             OnPropertyChanged(nameof(ShowPathRow));
@@ -455,6 +457,62 @@ namespace Playnite.DesktopApp.Controls
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             NotifyRowChange();
+        }
+
+        private void ListBoxAffinity_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(GameTask == null) { return; }
+            foreach(int core in e.AddedItems)
+            {
+                GameTask.ProcessorAffinity += (int)Math.Pow(2, core - 1);
+            }
+            foreach (int core in e.RemovedItems)
+            {
+                GameTask.ProcessorAffinity -= (int)Math.Pow(2, core - 1);
+            }
+            NotifyRowChange();
+        }
+
+        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (GameTask == null)
+            {
+                return;
+            }
+            // Default processor affinity to all cores
+            int allProcessorsMask = (int)Math.Pow(2, Environment.ProcessorCount) - 1;
+            if (GameTask.ProcessorAffinity == default(int) || GameTask.ProcessorAffinity < 0)
+            {
+                GameTask.ProcessorAffinity = allProcessorsMask;
+            }
+            // If CPU count is reduced, remove any excess bits
+            else if (GameTask.ProcessorAffinity > allProcessorsMask)
+            {
+                GameTask.ProcessorAffinity &= allProcessorsMask;
+            }
+            for (int core = 1; core <= Environment.ProcessorCount; core++)
+            {
+                ListBoxAffinity.Items.Add(core);
+                int coreMask = (int)Math.Pow(2, core - 1);
+                if ((GameTask.ProcessorAffinity & coreMask) == coreMask)
+                {
+                    ListBoxAffinity.SelectedItems.Add(core);
+                }
+            }
+            ListBoxAffinity.SelectionChanged += ListBoxAffinity_SelectionChanged;
+        }
+
+        private void ListBoxAffinity_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = true;
+                var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+                eventArg.RoutedEvent = MouseWheelEvent;
+                eventArg.Source = sender;
+                var parent = ((Control)sender).Parent as UIElement;
+                parent.RaiseEvent(eventArg);
+            }
         }
     }
 }

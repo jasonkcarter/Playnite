@@ -83,17 +83,17 @@ namespace Playnite.Common
             }
         }
 
-        public static Process StartProcess(string path, bool asAdmin = false, string username = null, string password = null)
+        public static Process StartProcess(string path, bool asAdmin = false, string username = null, string password = null, int processorAffinity = 0)
         {
-            return StartProcess(path, string.Empty, string.Empty, asAdmin, username, password);
+            return StartProcess(path, string.Empty, string.Empty, asAdmin, username, password, processorAffinity);
         }
 
-        public static Process StartProcess(string path, string arguments, bool asAdmin = false, string username = null, string password = null)
+        public static Process StartProcess(string path, string arguments, bool asAdmin = false, string username = null, string password = null, int processorAffinity = 0)
         {
-            return StartProcess(path, arguments, string.Empty, asAdmin, username, password);
+            return StartProcess(path, arguments, string.Empty, asAdmin, username, password, processorAffinity);
         }
 
-        public static Process StartProcess(string path, string arguments, string workDir, bool asAdmin = false, string username = null, string password = null)
+        public static Process StartProcess(string path, string arguments, string workDir, bool asAdmin = false, string username = null, string password = null, int processorAffinity = 0)
         {
             logger.Debug($"Starting process: {path}, {arguments}, {workDir}, {asAdmin}");
             var startupPath = path;
@@ -120,7 +120,12 @@ namespace Playnite.Common
                 info.Verb = "runas";
             }
 
-            return Process.Start(info);
+            var process = Process.Start(info);
+            if(processorAffinity > 0)
+            {
+                process.ProcessorAffinity = (IntPtr)processorAffinity;
+            }
+            return process;
         }
 
         public static int StartProcessWait(string path, string arguments, string workDir, bool noWindow = false)

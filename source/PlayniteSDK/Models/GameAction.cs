@@ -274,6 +274,20 @@ namespace Playnite.SDK.Models
             }
         }
 
+        private int processorAffinity;
+        /// <summary>
+        /// Gets or sets the processor affinity for the process launched by the action.
+        /// </summary>
+        public int ProcessorAffinity
+        {
+            get => processorAffinity;
+            set
+            {
+                processorAffinity = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <inheritdoc/>
         public override string ToString()
         {
@@ -347,6 +361,11 @@ namespace Playnite.SDK.Models
             }
 
             if (!string.Equals(Username, other.Username, StringComparison.Ordinal))
+            {
+                return false;
+            }
+
+            if (ProcessorAffinity != other.ProcessorAffinity)
             {
                 return false;
             }

@@ -417,7 +417,7 @@ namespace Playnite.Controllers
                 Process proc;
                 if (action.Type == GameActionType.File)
                 {
-                    proc = ProcessStarter.StartProcess(action.Path, action.Arguments, action.WorkingDir, false, action.Username, action.Password);
+                    proc = ProcessStarter.StartProcess(action.Path, action.Arguments, action.WorkingDir, false, action.Username, action.Password, action.ProcessorAffinity);
                 }
                 else if (action.Type == GameActionType.URL)
                 {
